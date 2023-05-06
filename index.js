@@ -1,4 +1,5 @@
 import express from 'express';
+import axios from 'axios';
 
 const app = express();
 
@@ -57,5 +58,13 @@ app.listen('3000');
 //app.route('/sobre/:nome').get( (req,res) => res.send(`o parâmetro será esperado após localhost:3000/sobre/aqui vem o parâmetro: ${req.params.nome}`));
 
 // --- query params --- //
-app.route('/').get( (req,res) => res.send(req.query));
-app.route('/about/user').get( (req,res) => res.send( req.query.nome ) );
+//app.route('/').get( (req,res) => res.send(req.query));
+//app.route('/about/user').get( (req,res) => res.send( req.query.nome ) );
+
+app.route('/').get( (req, res) => {
+    
+    axios.get('https://api.github.com/users/rafaballerini')
+    .then(result => res.send(`<img src="${result.data.avatar_url}"/>'`))
+    .catch(err => console.error(err));
+
+} );
